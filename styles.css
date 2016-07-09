@@ -1,0 +1,7 @@
+.draggable {
+  padding:10px 25px;
+  text-align: center;
+  background: pink;
+  cursor: move;
+  margin-top: 20px;
+}
