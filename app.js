@@ -17,7 +17,7 @@ function initDiagram() {
         // },
         // allow Ctrl-G to call groupSelection()
         "commandHandler.archetypeGroupData": {
-          text: "Group",
+          text: "Module",
           isGroup: true,
           color: "blue"
         },
@@ -39,21 +39,35 @@ function initDiagram() {
           cursor: "pointer", // the Shape is the port, not the whole Node
           // allow all kinds of links from and to this port
           fromLinkable: true,
-          fromLinkableSelfNode: true,
-          fromLinkableDuplicates: true,
+          fromLinkableSelfNode: false,
+          fromLinkableDuplicates: false,
           toLinkable: true,
-          toLinkableSelfNode: true,
-          toLinkableDuplicates: true
+          toLinkableSelfNode: false,
+          toLinkableDuplicates: false
         },
         new go.Binding("fill", "color")),
-      _G(go.TextBlock, {
-          font: "bold 14px sans-serif",
-          stroke: '#333',
-          margin: 6, // make some extra space for the shape around the text
-          isMultiline: false, // don't allow newlines in text
-          editable: false // allow in-place editing by user
-        },
-        new go.Binding("text", "text").makeTwoWay()), // the label shows the node data's text
+        _G(go.Panel, "Table",
+          { defaultAlignment: go.Spot.Left, margin: 4, cursor: "move" },
+          _G(go.RowColumnDefinition, { column: 1, width: 4 }),
+          _G(go.TextBlock,
+            { row: 0, column: 0, columnSpan: 3, alignment: go.Spot.Center },
+            { font: "bold 12pt sans-serif" },
+            new go.Binding("text", "text")),
+          _G(go.TextBlock, "Index: ",
+            { row: 1, column: 0 },
+            { font: "bold 8pt sans-serif" }),
+          _G(go.TextBlock,
+            { row: 1, column: 2 },
+            { font: "8pt sans-serif" },
+            new go.Binding("text", "key")),
+          _G(go.TextBlock, "Name: ",
+            { row: 2, column: 0 },
+            { font: "bold 8pt sans-serif" }),
+          _G(go.TextBlock,
+            { row: 3, column: 0 },
+            { font: "8pt sans-serif" },
+            new go.Binding("text", "name"))
+        ),
       { // this tooltip Adornment is shared by all nodes
         toolTip: _G(go.Adornment, "Auto",
           _G(go.Shape, {
@@ -68,10 +82,6 @@ function initDiagram() {
         contextMenu: partContextMenu
       }
     );
-  // Define the appearance and behavior for Links:
-  function linkInfo(d) { // Tooltip info for a link data object
-    return "Link:\nfrom " + d.from + " to " + d.to;
-  }
   // The link shape and arrowhead have their stroke brush data bound to the "color" property
   myDiagram.linkTemplate =
     _G(go.Link, {
@@ -262,13 +272,20 @@ function dragDrop() {
       var mx = event.clientX - bbox.left * ((can.width / pixelratio) / bbw);
       var my = event.clientY - bbox.top * ((can.height / pixelratio) / bbh);
       var point = myDiagram.transformViewToDoc(new go.Point(mx, my));
-      var shape;
+      var shape, color, angle;
       var isGroup = false;
       if (dragged.textContent === "Module") {
         shape = "Rectangle";
         isGroup = true;
-      } else if (dragged.textContent === "Learning Material") shape = "RoundedRectangle";
-      else if (dragged.textContent === "Quiz") shape = "Octagon";
+      } else if (dragged.textContent === "Learning") {
+        shape = "RoundedRectangle";
+        color = "lightgreen";
+      }
+      else if (dragged.textContent === "Quiz") {
+        shape = "StopSign";
+        color = "pink"
+        angle = 30;
+      }
       else shape = "NotAllowed";
 
       myDiagram.startTransaction('new node');
@@ -276,7 +293,9 @@ function dragDrop() {
         location: point,
         text: dragged.textContent,
         fig: shape,
-        isGroup: isGroup
+        isGroup: isGroup,
+        color: color,
+        angle: angle
       });
       myDiagram.commitTransaction('new node');
     }
@@ -290,100 +309,109 @@ function dragDrop() {
 function loadContent(event) {
   // Create the Diagram's Model:
   nodeDataArray = [{
-    "text": "Learning Material",
+    "name": "Intro",
+    "text": "Learning",
     "fig": "RoundedRectangle",
     "color": "lightgreen",
     "isGroup": false,
-    "key": -1,
-    "group": -4
+    "key": 1,
+    "group": -1
   }, {
-    "text": "Learning Material",
+    "name": "Lesson 1",
+    "text": "Learning",
     "fig": "RoundedRectangle",
     "color": "lightgreen",
     "isGroup": false,
-    "key": -2,
-    "group": -4
+    "key": 2,
+    "group": -1
   }, {
+    "name": "Sample",
     "text": "Quiz",
     "fig": "Octagon",
     "color": "pink",
     "isGroup": false,
-    "key": -3,
-    "group": -4
+    "key": 3,
+    "group": -1
   }, {
     "text": "Module 1",
     "isGroup": true,
     "color": "blue",
-    "key": -4
+    "key": -1
   }, {
-    "text": "Learning Material",
+    "name": "Sync up",
+    "text": "Learning",
     "fig": "RoundedRectangle",
     "color": "lightgreen",
     "isGroup": false,
-    "key": -5,
-    "group": -11
+    "key": 4,
+    "group": -2
   }, {
+    "name": "Refresh",
     "text": "Quiz",
     "fig": "Octagon",
     "color": "pink",
     "isGroup": false,
-    "key": -6,
-    "group": -11
+    "key": 5,
+    "group": -2
   }, {
-    "text": "Learning Material",
+    "name": "Extra",
+    "text": "Learning",
     "fig": "RoundedRectangle",
     "color": "lightgreen",
     "isGroup": false,
-    "key": -7,
-    "group": -11
+    "key": 6,
+    "group": -2
   }, {
-    "text": "Learning Material",
+    "name": "Extra 2",
+    "text": "Learning",
     "fig": "RoundedRectangle",
     "color": "lightgreen",
     "isGroup": false,
-    "key": -8,
-    "group": -11
+    "key": 7,
+    "group": -2
   }, {
-    "text": "Learning Material",
+    "name": "Summary",
+    "text": "Learning",
     "fig": "RoundedRectangle",
     "color": "lightgreen",
     "isGroup": false,
-    "key": -9,
-    "group": -11
+    "key": 8,
+    "group": -2
   }, {
+    "name": "Evaluation",
     "text": "Quiz",
     "fig": "Octagon",
     "color": "pink",
     "isGroup": false,
-    "key": -10,
-    "group": -11
+    "key": 9,
+    "group": -2
   }, {
     "text": "Module 2",
     "isGroup": true,
     "color": "blue",
-    "key": -11
+    "key": -2
   }];
   linkDataArray = [{
-    "from": -1,
-    "to": -2
+    "from": 1,
+    "to": 2
   }, {
-    "from": -2,
-    "to": -3
+    "from": 2,
+    "to": 3
   }, {
-    "from": -5,
-    "to": -6
+    "from": 4,
+    "to": 5
   }, {
-    "from": -6,
-    "to": -7
+    "from": 5,
+    "to": 6
   }, {
-    "from": -7,
-    "to": -8
+    "from": 6,
+    "to": 7
   }, {
-    "from": -8,
-    "to": -9
+    "from": 7,
+    "to": 8
   }, {
-    "from": -9,
-    "to": -10
+    "from": 8,
+    "to": 9
   }];
   myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
 }
@@ -410,65 +438,9 @@ var partContextMenu =
         var contextmenu = obj.part; // the Button is in the context menu Adornment
         var part = contextmenu.adornedPart; // the adornedPart is the Part that the context menu adorns
         // now can do something with PART, or with its data, or with the Adornment (the context menu)
-        if (part instanceof go.Link) alert(linkInfo(part.data));
-        else if (part instanceof go.Group) alert(groupInfo(contextmenu));
-        else alert(nodeInfo(part.data));
-      }),
-    makeButton("Cut",
-      function(e, obj) {
-        e.diagram.commandHandler.cutSelection();
-      },
-      function(o) {
-        return o.diagram.commandHandler.canCutSelection();
-      }),
-    makeButton("Copy",
-      function(e, obj) {
-        e.diagram.commandHandler.copySelection();
-      },
-      function(o) {
-        return o.diagram.commandHandler.canCopySelection();
-      }),
-    makeButton("Paste",
-      function(e, obj) {
-        e.diagram.commandHandler.pasteSelection(e.diagram.lastInput.documentPoint);
-      },
-      function(o) {
-        return o.diagram.commandHandler.canPasteSelection();
-      }),
-    makeButton("Delete",
-      function(e, obj) {
-        e.diagram.commandHandler.deleteSelection();
-      },
-      function(o) {
-        return o.diagram.commandHandler.canDeleteSelection();
-      }),
-    makeButton("Undo",
-      function(e, obj) {
-        e.diagram.commandHandler.undo();
-      },
-      function(o) {
-        return o.diagram.commandHandler.canUndo();
-      }),
-    makeButton("Redo",
-      function(e, obj) {
-        e.diagram.commandHandler.redo();
-      },
-      function(o) {
-        return o.diagram.commandHandler.canRedo();
-      }),
-    makeButton("Group",
-      function(e, obj) {
-        e.diagram.commandHandler.groupSelection();
-      },
-      function(o) {
-        return o.diagram.commandHandler.canGroupSelection();
-      }),
-    makeButton("Ungroup",
-      function(e, obj) {
-        e.diagram.commandHandler.ungroupSelection();
-      },
-      function(o) {
-        return o.diagram.commandHandler.canUngroupSelection();
+        if (part instanceof go.Link) console.log("Link", part.data);
+        else if (part instanceof go.Group) console.log("Group", part.data);
+        else console.log("Node", part.data);
       })
   );
 
@@ -482,7 +454,6 @@ function makeButton(text, action, visiblePredicate) {
 }
 // a context menu is an Adornment with a bunch of buttons in them
 
-
 function nodeInfo(d) { // Tooltip info for a node data object
   var str = "Node " + d.key + ": " + d.text + "\n";
   if (d.group)
@@ -490,4 +461,9 @@ function nodeInfo(d) { // Tooltip info for a node data object
   else
     str += "top-level node";
   return str;
+}
+
+// Define the appearance and behavior for Links:
+function linkInfo(d) { // Tooltip info for a link data object
+  return "Link:\nfrom " + d.from + " to " + d.to;
 }

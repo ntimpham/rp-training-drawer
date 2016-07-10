@@ -10,7 +10,7 @@
     <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
     <script src="bootstrap.js"></script>
     <script src="https://gojs.net/latest/release/go-debug.js"></script>
-    <script src="./app.js"></script>
+    <script src="app.js"></script>
 </head>
 
 <body>
@@ -20,7 +20,7 @@
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-nav" aria-expanded="false">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -30,7 +30,7 @@
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <div class="collapse navbar-collapse" id="main-nav">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User <span class="caret"></span></a>
@@ -65,9 +65,9 @@
                     </div>
                     <span style="display: inline-block; vertical-align: top; padding: 5px;">
                   <div class="palettezone">
-                    <span class="draggable" draggable="true">Module</span>
-                    <span class="draggable" draggable="true">Learning Material</span>
-                    <span class="draggable" draggable="true">Quiz</span>
+                    <span class="draggable" draggable="true" id="module">Module</span>
+                    <span class="draggable" draggable="true" id="learning">Learning</span>
+                    <span class="draggable" draggable="true" id="quiz">Quiz</span>
                 </div>
                 </span>
             </div>

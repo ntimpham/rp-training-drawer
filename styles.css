@@ -1,11 +1,20 @@
 .draggable {
   padding:10px 25px;
   text-align: center;
-  background: lightgoldenrodyellow;
   cursor: move;
   margin-top: 20px;
 }
 
-#main-nav {
+#module {
+  background: lightgoldenrodyellow;
+}
+#learning {
+  background: lightgreen;
+}
+#quiz {
+  background: pink;
+}
+
+.navbar {
   margin-bottom: 0;
 }
