@@ -18,3 +18,12 @@
 .navbar {
   margin-bottom: 0;
 }
+
+#properties label.required:before {
+  content: "* ";
+  color: red;
+}
+
+label {
+  font-weight: normal;
+}

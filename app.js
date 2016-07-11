@@ -60,13 +60,13 @@ function initDiagram() {
             { row: 1, column: 2 },
             { font: "8pt sans-serif" },
             new go.Binding("text", "key")),
-          _G(go.TextBlock, "Name: ",
+          _G(go.TextBlock, "Title: ",
             { row: 2, column: 0 },
             { font: "bold 8pt sans-serif" }),
           _G(go.TextBlock,
             { row: 3, column: 0 },
             { font: "8pt sans-serif" },
-            new go.Binding("text", "name"))
+            new go.Binding("text", "title"))
         ),
       { // this tooltip Adornment is shared by all nodes
         toolTip: _G(go.Adornment, "Auto",
@@ -309,7 +309,10 @@ function dragDrop() {
 function loadContent(event) {
   // Create the Diagram's Model:
   nodeDataArray = [{
-    "name": "Intro",
+    "title": "Intro",
+    "description": "This is a description.",
+    "link": "https://www.google.ca/",
+    "time": "24 hours",
     "text": "Learning",
     "fig": "RoundedRectangle",
     "color": "lightgreen",
@@ -317,7 +320,10 @@ function loadContent(event) {
     "key": 1,
     "group": -1
   }, {
-    "name": "Lesson 1",
+    "title": "Lesson 1",
+    "description": "This is a description.",
+    "link": "https://www.google.ca/",
+    "time": "24 hours",
     "text": "Learning",
     "fig": "RoundedRectangle",
     "color": "lightgreen",
@@ -325,9 +331,9 @@ function loadContent(event) {
     "key": 2,
     "group": -1
   }, {
-    "name": "Sample",
+    "title": "Sample",
     "text": "Quiz",
-    "fig": "Octagon",
+    "fig": "StopSign",
     "color": "pink",
     "isGroup": false,
     "key": 3,
@@ -338,7 +344,10 @@ function loadContent(event) {
     "color": "blue",
     "key": -1
   }, {
-    "name": "Sync up",
+    "title": "Sync up",
+    "description": "This is a description.",
+    "link": "https://www.google.ca/",
+    "time": "24 hours",
     "text": "Learning",
     "fig": "RoundedRectangle",
     "color": "lightgreen",
@@ -346,15 +355,18 @@ function loadContent(event) {
     "key": 4,
     "group": -2
   }, {
-    "name": "Refresh",
+    "title": "Refresh",
     "text": "Quiz",
-    "fig": "Octagon",
+    "fig": "StopSign",
     "color": "pink",
     "isGroup": false,
     "key": 5,
     "group": -2
   }, {
-    "name": "Extra",
+    "title": "Extra",
+    "description": "This is a description.",
+    "link": "https://www.google.ca/",
+    "time": "24 hours",
     "text": "Learning",
     "fig": "RoundedRectangle",
     "color": "lightgreen",
@@ -362,7 +374,10 @@ function loadContent(event) {
     "key": 6,
     "group": -2
   }, {
-    "name": "Extra 2",
+    "title": "Extra 2",
+    "description": "This is a description.",
+    "link": "https://www.google.ca/",
+    "time": "24 hours",
     "text": "Learning",
     "fig": "RoundedRectangle",
     "color": "lightgreen",
@@ -370,7 +385,10 @@ function loadContent(event) {
     "key": 7,
     "group": -2
   }, {
-    "name": "Summary",
+    "title": "Summary",
+    "description": "This is a description.",
+    "link": "https://www.google.ca/",
+    "time": "24 hours",
     "text": "Learning",
     "fig": "RoundedRectangle",
     "color": "lightgreen",
@@ -378,9 +396,9 @@ function loadContent(event) {
     "key": 8,
     "group": -2
   }, {
-    "name": "Evaluation",
+    "title": "Evaluation",
     "text": "Quiz",
-    "fig": "Octagon",
+    "fig": "StopSign",
     "color": "pink",
     "isGroup": false,
     "key": 9,
@@ -440,7 +458,12 @@ var partContextMenu =
         // now can do something with PART, or with its data, or with the Adornment (the context menu)
         if (part instanceof go.Link) console.log("Link", part.data);
         else if (part instanceof go.Group) console.log("Group", part.data);
-        else console.log("Node", part.data);
+        else {
+          if (part.data.text === "Learning")
+           addLearningProperties(part.data.title, part.data.description, part.data.link, part.data.time);
+          else addQuizProperties();
+        }
+        showProperties();
       })
   );
 
@@ -466,4 +489,61 @@ function nodeInfo(d) { // Tooltip info for a node data object
 // Define the appearance and behavior for Links:
 function linkInfo(d) { // Tooltip info for a link data object
   return "Link:\nfrom " + d.from + " to " + d.to;
+}
+
+function showProperties() {
+  $("#properties").show();
+}
+
+function hideProperties() {
+  $("#properties").hide();
+}
+
+function addLearningProperties(title, description, link, time) {
+  var p = $( $("#learningTemplate").html() );
+
+  p.find("#title").val(title);
+  p.find("#description").val(description);
+  p.find("#link").val(link);
+  p.find("#time").val(time);
+
+
+  p.find("#hideProperties").click(function() {
+    hideProperties();
+  });
+
+  $("#properties").html(p);
+}
+
+function addQuizProperties(title, score, time, question, answers) {
+  var p = $( $("#quizTemplate").html() );
+
+  p.find("#title").val(title);
+  p.find("#score").val(score);
+  p.find("#time").val(time);
+  p.find("#question").val(question);
+  if (answers) {
+    answers.map(function(q) {
+      p.find("#answers").append(getAnswersTemplate());
+    });
+  }
+
+  p.find("#addAnswer").click(function() {
+    p.find("#answers").append(getAnswersTemplate());
+  });
+
+  p.find("#hideProperties").click(function() {
+    hideProperties();
+  });
+
+  $("#properties").html(p);
+}
+
+function getAnswersTemplate() {
+  return '<div class="input-group">\
+            <span class="input-group-addon">\
+              <input type="checkbox">\
+            </span>\
+            <input type="text" class="form-control">\
+          </div>'
 }
