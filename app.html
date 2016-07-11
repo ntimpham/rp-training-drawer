@@ -84,45 +84,135 @@
     <strong>
     Quiz Properties
   </strong>
-  <div class="form-group">
-      <label class="required" for="title">Quiz title:</label>
-      <input type="text" class="form-control" id="title">
-  </div>
-  <div class="form-group">
-      <label class="required" for="score">Minimum score:</label>
-      <input type="text" class="form-control" id="score">
-  </div>
-  <div class="form-group">
-      <label class="required" for="time">Time limit:</label>
-      <input type="text" class="form-control" id="time">
-  </div>
-  <div class="form-group">
-      <label class="required" for="description">Question:</label>
-      <textarea class="form-control" id="question"></textarea>
-  </div>
-  <div class="form-group">
-      <label class="required">Answers:</label>
-      <div id="answers">
-      </div>
-      <div class="btn-group">
-          <button type="button" class="btn btn-default" id="addAnswer">Add</button>
-      </div>
-  </div>
-  <div class="btn-group">
-      <button type="button" class="btn btn-danger" id="hideProperties">Cancel</button>
-  </div>
-  <div class="btn-group">
-      <button type="button" class="btn btn-success">Save</button>
-  </div>
+    <div class="form-group">
+        <label class="required" for="title">Quiz title:</label>
+        <input type="text" class="form-control" id="title">
+    </div>
+    <div class="form-group">
+        <label class="required" for="score">Minimum score:</label>
+        <input type="text" class="form-control" id="score">
+    </div>
+    <div class="form-group">
+        <label class="required" for="time">Time limit:</label>
+        <input type="text" class="form-control" id="time">
+    </div>
+    <div class="form-group">
+        <label class="required" for="question">Question:</label>
+        <textarea class="form-control" id="question"></textarea>
+    </div>
+    <div class="form-group">
+        <label class="required">Answers:</label>
+        <div id="answers">
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-default" id="addAnswer">Add</button>
+        </div>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-danger" id="hideProperties">Cancel</button>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-success">Save</button>
+    </div>
 </script>
 
 <script type="text/html" id="linkTemplate">
     <strong>
-    Link Properties
+    Condition
   </strong>
-    <div class="input-group">
-        <span class="input-group-addon required" required="true">Learning title</span>
-        <input type="text" class="form-control">
+    <div class="container">
+        <row>
+            <div class="col-xs-1">
+                <input type="checkbox">
+            </div>
+            <div class="col-xs-5">
+                <label>Required learning</label>
+            </div>
+            <div class="col-xs-6">
+                <span class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Select learning
+                <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="#">Sum</a></li>
+                    <li><a href="#">Ting</a></li>
+                    <li><a href="#">Wong</a></li>
+                </ul>
+                </span>
+            </div>
+        </row>
+        <row>
+            <div class="col-xs-1">
+                <input type="checkbox">
+            </div>
+            <div class="col-xs-5">
+                <label>Required quiz</label>
+            </div>
+            <div class="col-xs-6">
+                <span class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Select quiz
+                <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="#">Sum</a></li>
+                    <li><a href="#">Ting</a></li>
+                    <li><a href="#">Wong</a></li>
+                </ul>
+                </span>
+            </div>
+        </row>
+        <row>
+            <div class="col-xs-1">
+                <input type="checkbox">
+            </div>
+            <div class="col-xs-5">
+                <label>Specific trainee type</label>
+            </div>
+            <div class="col-xs-6">
+                <span class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Select trainee type
+                <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="#">Sum</a></li>
+                    <li><a href="#">Ting</a></li>
+                    <li><a href="#">Wong</a></li>
+                </ul>
+                </span>
+            </div>
+        </row>
+        <row>
+            <div class="col-xs-1">
+                <input type="checkbox">
+            </div>
+            <div class="col-xs-5">
+                <label>Specific channel partner</label>
+            </div>
+            <div class="col-xs-6">
+                <span class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Select partner
+                <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="#">Sum</a></li>
+                    <li><a href="#">Ting</a></li>
+                    <li><a href="#">Wong</a></li>
+                </ul>
+                </span>
+            </div>
+        </row>
+    </div>
+
+
+    <div class="btn-group">
+        <button type="button" class="btn btn-danger" id="hideProperties">Cancel</button>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-success">Save</button>
     </div>
 </script>
 

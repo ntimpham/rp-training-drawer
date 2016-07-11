@@ -456,12 +456,12 @@ var partContextMenu =
         var contextmenu = obj.part; // the Button is in the context menu Adornment
         var part = contextmenu.adornedPart; // the adornedPart is the Part that the context menu adorns
         // now can do something with PART, or with its data, or with the Adornment (the context menu)
-        if (part instanceof go.Link) console.log("Link", part.data);
+        if (part instanceof go.Link) addLinkProperties();
         else if (part instanceof go.Group) console.log("Group", part.data);
         else {
           if (part.data.text === "Learning")
            addLearningProperties(part.data.title, part.data.description, part.data.link, part.data.time);
-          else addQuizProperties();
+          else addQuizProperties(part.data.title, part.data.score, part.data.time, part.data.question, part.data.answers);
         }
         showProperties();
       })
@@ -546,4 +546,14 @@ function getAnswersTemplate() {
             </span>\
             <input type="text" class="form-control">\
           </div>'
+}
+
+function addLinkProperties() {
+  var p = $( $("#linkTemplate").html() );
+
+  p.find("#hideProperties").click(function() {
+    hideProperties();
+  });
+
+  $("#properties").html(p);
 }
